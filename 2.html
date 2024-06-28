@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang = "ko">
+<head>
+    <meta charset = "utf-8">
+</head>
+<body>
+    <style>
+        h1{
+            color:black;
+            border-radius:25px;
+            background-color:rgb(255, 255, 255);
+        }
+        button{
+            color:rgb(254, 123, 0);
+            border-radius:25px;
+            background:rgb(255, 255, 255);
+        }
+    </style>
+    <script>
+        title = prompt("제목을 입력하시오")
+        text = prompt("본문을 입력하시오")
+        document.write(title,"<br>")
+       document.write(text)
+    </script>
+    <a href = "index.html"><h1>Ko Blog</h1></a>
+    <form>
+        title:<input type="text"><br>
+        text:<input type = "text"><br>
+        <button type = "button" onclick="location.href ='index.html'">저장하기</button>
+    </form>
+</body>
+</html>
