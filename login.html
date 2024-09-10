@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>로그인</title>
+</head>
+<body>
+    <h1>로그인</h1>
+    
+    <form>
+        <input type="text" id="loginId" placeholder="아이디" required><br>
+        <input type="password" id="loginPassword" placeholder="비밀번호" required><br>
+        <button type="button" onclick="login()">로그인</button>
+    </form>
+
+    <script>
+        function login() {
+            var id = document.getElementById("loginId").value;
+            var password = document.getElementById("loginPassword").value;
+
+            // 유효성 검사
+            if (id === "" || password === "") {
+                alert("아이디와 비밀번호를 입력하세요.");
+                return;
+            }
+
+            // 기존 회원 목록에서 아이디와 비밀번호 확인
+            var users = JSON.parse(localStorage.getItem("users")) || [];
+            var user = users.find(user => user.id === id && user.password === password);
+
+            if (user) {
+                // 로그인 상태 저장
+                localStorage.setItem("loggedIn", "true");
+                localStorage.setItem("currentUser", id);  // 로그인한 아이디 저장
+
+                alert("로그인에 성공했습니다.");
+                location.href = "index.html";  // 로그인 후 index.html로 이동
+            } else {
+                alert("아이디 또는 비밀번호가 틀렸습니다.");
+            }
+        }
+    </script>
+</body>
+</html>

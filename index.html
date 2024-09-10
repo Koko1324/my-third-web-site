@@ -1,43 +1,72 @@
 <!doctype html>
-<html lang = "ko">
+<html lang="ko">
 <head>
-    <meta charset = "utf-8">
-</head>
-<body>
-    <script>
-        var title;
-        var text;
-    </script>
+    <meta charset="utf-8">
+    <title>Ko Blog</title>
     <style>
-        h1{
-            color:rgb(255, 149, 0);
-            border-radius:25px;
-            background-color:rgb(0, 0, 0);
+        .post {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        h2{
-            color:rgb(255, 149, 0);
-            border-radius:25px;
-            background-color:rgb(0, 0, 0);
+        .post-title {
+            font-size: 24px;
+            font-weight: bold;
         }
-        li{
-            color:rgb(255, 149, 0);
-            border-radius:25px;
-            background-color:rgb(255, 255, 255);
+        .post-author {
+            font-size: 14px;
+            color: gray;
+            float: right;
         }
-        h3{
-            color:rgb(255, 149, 0);
-            border-radius:25px;
-            background-color:rgb(0, 0, 0);
+        .post-content {
+            margin-top: 10px;
+            font-size: 18px;
         }
     </style>
-<a href = "index.html"><h1>Ko Blog</h1></a>
-<a href = "3.html"><h2> 회원가입</h2></a>
-<a href = "4.html"><h2> 로그인</h2></a>
+</head>
+<body>
+    <h1>블로그 글 목록</h1>
+    <div id="blogPosts"></div>
 
-<h3>bloger</h3>
-<ol>
-    <a href = "아이디1.html"><li>아이디1</li></a>
-    <a href = "아이디2.html"><li>아이디2</li></a>
-    <a href = "아이디3.html"><li>아이디3</li></a>
-</ol>
-</body></html>
+    <script>
+        function displayPosts() {
+            var posts = JSON.parse(localStorage.getItem("posts")) || [];
+            var postContainer = document.getElementById("blogPosts");
+
+            if (posts.length > 0) {
+                posts.forEach(function(post) {
+                    var postElement = document.createElement("div");
+                    postElement.className = "post";
+
+                    var postTitle = document.createElement("div");
+                    postTitle.className = "post-title";
+                    postTitle.textContent = post.title;
+
+                    var postAuthor = document.createElement("div");
+                    postAuthor.className = "post-author";
+                    postAuthor.textContent = `작성자: ${post.author}`;
+
+                    var postContent = document.createElement("div");
+                    postContent.className = "post-content";
+                    postContent.textContent = post.content;
+
+                    postElement.appendChild(postTitle);
+                    postElement.appendChild(postAuthor);
+                    postElement.appendChild(postContent);
+                    postContainer.appendChild(postElement);
+                });
+            } else {
+                postContainer.innerHTML = "<p>저장된 글이 없습니다.</p>";
+            }
+        }
+
+        // 페이지 로드 시 글 표시
+        window.onload = displayPosts;
+    </script>
+    <button id="signin" class="." onclick="location.href='signin.html'">회원가입</button>
+    <button id="login" class="." onclick="location.href='login.html'">로그인</button>
+    <button id="write" class="." onclick="location.href='2.html'">글쓰기</button>
+</body>
+</html>

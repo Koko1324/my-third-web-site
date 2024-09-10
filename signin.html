@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>회원가입</title>
+</head>
+<body>
+    <h1>회원가입</h1>
+    
+    <form>
+        <input type="text" id="signupId" placeholder="아이디" required><br>
+        <input type="password" id="signupPassword" placeholder="비밀번호" required><br>
+        <button type="button" onclick="signup()">회원가입</button>
+    </form>
+
+    <script>
+        function signup() {
+            var id = document.getElementById("signupId").value;
+            var password = document.getElementById("signupPassword").value;
+
+            // 간단한 유효성 검사
+            if (id === "" || password === "") {
+                alert("아이디와 비밀번호를 입력하세요.");
+                return;
+            }
+
+            // "게스트" 아이디로 회원가입을 막기
+            if (id.toLowerCase() === "guest" || id.toLowerCase() === "게스트") {
+                alert('"게스트"라는 아이디로는 회원가입할 수 없습니다.');
+                return;
+            }
+
+            // 기존에 저장된 회원 목록 가져오기 (없으면 빈 배열)
+            var users = JSON.parse(localStorage.getItem("users")) || [];
+
+            // 중복 아이디 체크
+            if (users.some(user => user.id === id)) {
+                alert("이미 존재하는 아이디입니다. 다른 아이디를 입력하세요.");
+                return;
+            }
+
+            // 회원 정보 저장
+            users.push({ id: id, password: password });
+            localStorage.setItem("users", JSON.stringify(users));
+
+            alert("회원가입이 완료되었습니다.");
+            location.href = "login.html";  // 회원가입 후 로그인 페이지로 이동
+        }
+    </script>
+</body>
+</html>

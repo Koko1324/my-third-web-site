@@ -1,32 +1,60 @@
 <!doctype html>
-<html lang = "ko">
+<html lang="ko">
 <head>
-    <meta charset = "utf-8">
-</head>
-<body>
+    <meta charset="utf-8">
+    <title>글쓰기</title>
     <style>
-        h1{
-            color:black;
-            border-radius:25px;
-            background-color:rgb(255, 255, 255);
-        }
-        button{
-            color:rgb(254, 123, 0);
-            border-radius:25px;
-            background:rgb(255, 255, 255);
+        #userStatus {
+            font-size: 14px;
+            color: gray;
+            float: right;
         }
     </style>
-    <script>
-        title = prompt("제목을 입력하시오")
-        text = prompt("본문을 입력하시오")
-        document.write(title,"<br>")
-       document.write(text)
-    </script>
-    <a href = "index.html"><h1>Ko Blog</h1></a>
+</head>
+<body>
+    <h1>글쓰기</h1>
+    <button id="logo" onclick="location.href='index.html'">Ko Blog</button>
+
     <form>
-        title:<input type="text"><br>
-        text:<input type = "text"><br>
-        <button type = "button" onclick="location.href ='index.html'">저장하기</button>
+        <input type="text" id="title" placeholder="제목"><br>
+        <textarea id="content" placeholder="글"></textarea><br>
+        <button type="button" onclick="savePost()">저장</button>
+        <div id="userStatus"></div>  <!-- 오른쪽 상단에 사용자 아이디 표시 -->
     </form>
+
+    <script>
+        // 로그인 상태 확인
+        function checkLoginStatus() {
+            var loggedIn = localStorage.getItem("loggedIn");
+            var userStatusElement = document.getElementById("userStatus");
+
+            if (loggedIn === "true") {
+                // 로그인되어 있으면 사용자 아이디를 표시
+                var currentUser = localStorage.getItem("currentUser");
+                userStatusElement.textContent = `사용자: ${currentUser}`;
+            } else {
+                // 로그인되지 않으면 게스트로 표시
+                userStatusElement.textContent = "사용자: 게스트";
+            }
+        }
+
+        function savePost() {
+            var title = document.getElementById("title").value;
+            var content = document.getElementById("content").value;
+
+            var loggedIn = localStorage.getItem("loggedIn");
+            var currentUser = loggedIn === "true" ? localStorage.getItem("currentUser") : "게스트";
+
+            var posts = JSON.parse(localStorage.getItem("posts")) || [];
+            posts.push({ title: title, content: content, author: currentUser });
+            localStorage.setItem("posts", JSON.stringify(posts));
+
+            alert("글이 저장되었습니다.");
+            location.href = 'index.html';
+        }
+
+        // 페이지 로드 시 로그인 상태 확인
+        window.onload = checkLoginStatus;
+    </script>
 </body>
 </html>
